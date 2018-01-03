@@ -1,0 +1,23 @@
+<ion-row style="height: 30px" padding>
+  <ion-col (click)="onClick('0')" [ngClass]="{'active': repeat[0] == true}">
+    Sun 
+  </ion-col>
+  <ion-col (click)="onClick('1')" [ngClass]="{'active': repeat[1] == true}">
+    Mon
+  </ion-col>
+  <ion-col (click)="onClick('2')" [ngClass]="{'active': repeat[2] == true}">
+    Tue
+  </ion-col>
+  <ion-col (click)="onClick('3')" [ngClass]="{'active': repeat[3] == true}">
+    Wed
+  </ion-col>
+  <ion-col (click)="onClick('4')" [ngClass]="{'active': repeat[4] == true}">
+    Thu
+  </ion-col>
+  <ion-col (click)="onClick('5')" [ngClass]="{'active': repeat[5] == true}">
+    Fri
+  </ion-col>
+  <ion-col (click)="onClick('6')" [ngClass]="{'active': repeat[6] == true}">
+    Sat
+  </ion-col>
+</ion-row>
