@@ -10,6 +10,11 @@ import { UsersPageModule } from '../pages/users/users.module';
 import { ComponentsModule } from '../components/components.module';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { File } from '@ionic-native/file';
+import { Vibration } from '@ionic-native/vibration';
+import { NativeAudio } from '@ionic-native/native-audio';
+import { FilePath } from '@ionic-native/file-path';
+import { Media } from '@ionic-native/media';
+
 
 @NgModule({
   declarations: [
@@ -32,7 +37,11 @@ import { File } from '@ionic-native/file';
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler},
     FileChooser,
-    File
+    File,
+    Vibration,
+    NativeAudio,
+    FilePath,
+    Media
   ]
 })
 export class AppModule {}
