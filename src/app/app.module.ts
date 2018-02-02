@@ -14,6 +14,8 @@ import { Vibration } from '@ionic-native/vibration';
 import { NativeAudio } from '@ionic-native/native-audio';
 import { FilePath } from '@ionic-native/file-path';
 import { Media } from '@ionic-native/media';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { IonicStorageModule } from '@ionic/storage';
 
 
 @NgModule({
@@ -25,7 +27,8 @@ import { Media } from '@ionic-native/media';
     BrowserModule,
     IonicModule.forRoot(MyApp),
     UsersPageModule,
-    ComponentsModule
+    ComponentsModule,
+    IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -41,7 +44,8 @@ import { Media } from '@ionic-native/media';
     Vibration,
     NativeAudio,
     FilePath,
-    Media
+    Media,
+    LocalNotifications
   ]
 })
 export class AppModule {}

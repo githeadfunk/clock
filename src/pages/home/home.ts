@@ -9,6 +9,8 @@ import { NativeAudio } from '@ionic-native/native-audio';
 import { FilePath } from '@ionic-native/file-path';
 import { Media, MediaObject } from '@ionic-native/media';
 import { Observable } from 'rxjs/Rx';
+import { LocalNotifications } from '@ionic-native/local-notifications';
+import { Storage } from '@ionic/storage';
 
 
 @Component({
@@ -31,10 +33,14 @@ export class HomePage {
     private vibration: Vibration,
     private nativeAudio: NativeAudio,
     private filePath: FilePath,
-    private media: Media
+    private media: Media,
+    private localNotifications: LocalNotifications,
+    private storage: Storage
   ){
 
   }
+
+  
 
 
   editName(){
@@ -67,12 +73,6 @@ export class HomePage {
   }
 
   chooseAlarmTone(){
-    // this.file.checkDir(this.file.dataDirectory, 'mydir').then(_ => console.log('Directory exists')).catch(err => console.log('Directory doesnt exist'));
-    // const tit = this.file.applicationDirectory;
-    // const myalert = this.alertCtrl.create({
-    //   title: tit
-    // });
-    // myalert.present();
     this.fileChooser.open().then((url) => {
       (<any>window).FilePath.resolveNativePath(url, (result) => {
         this.musicUrl = result;
@@ -82,21 +82,6 @@ export class HomePage {
       });
       myalert.present();
     })
-    // this.fileChooser.open()
-    //   .then(uri => {
-    //     this.musicUrl = uri;
-    //     const myalert = this.alertCtrl.create({
-    //       title: uri
-    //     });
-    //     myalert.present();
-    //   })
-    //   .catch(e => {
-    //     const myalert = this.alertCtrl.create({
-    //       title: e
-    //     });
-    //     myalert.present();
-    //   });
-    
   }
 
   changeVibration(){
@@ -110,6 +95,10 @@ export class HomePage {
     //save to SharedPrefences
     const file: MediaObject = this.media.create(this.musicUrl);
     file.play();
+    this.storage.set('name', {Max: 'wyh'});
+    this.storage.get('name').then((val) => {
+      console.log('Your age is', val);
+    });
   }
 
   ionViewDidLoad () {
