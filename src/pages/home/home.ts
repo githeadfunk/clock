@@ -93,8 +93,10 @@ export class HomePage {
 
   play(){
     //save to SharedPrefences
+    //should use music control, background mode
     const file: MediaObject = this.media.create(this.musicUrl);
     file.play();
+    file.onSuccess.subscribe(() => console.log('Action is successful'));
     this.storage.set('name', {Max: 'wyh'});
     this.storage.get('name').then((val) => {
       console.log('Your age is', val);
@@ -104,6 +106,7 @@ export class HomePage {
   ionViewDidLoad () {
     // this.subscription = Observable.interval(1000).subscribe(x => {
     //   var time = new Date();
+    //   console.log('time: ', time);
     // });
   }
   stopTheIterations () {
