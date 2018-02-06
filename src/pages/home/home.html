@@ -15,7 +15,7 @@
   <ion-item>
     <ion-label style="height: 65px;">
       Repeat
-      <week-day-repeat></week-day-repeat>
+      <week-day-repeat (change)="repeatChange($event)"></week-day-repeat>
     </ion-label>
   </ion-item>
   <ion-item (click)="editName()">
@@ -34,6 +34,10 @@
   <ion-item>
     <ion-label (click)="play()">Play</ion-label>
   </ion-item>
+  <div padding text-center>
+    <button ion-button (click)="saveAlarm()">Save</button>
+    <button ion-button>Cancel</button>
+  </div>
   
 </ion-content>
 

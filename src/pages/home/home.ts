@@ -25,6 +25,7 @@ export class HomePage {
   vibrationON: boolean = false;
   musicUrl: string = "";
   subscription;
+  repeat: boolean[] = [];
 
   constructor(
     private alertCtrl: AlertController,
@@ -112,6 +113,38 @@ export class HomePage {
   stopTheIterations () {
     this.subscription.unsubscribe ();
   }
+  saveAlarm(){
+    this.storage.get('alarmList').then((val) => {
+      if(val){
+        const alert = this.alertCtrl.create({
+          title: 'Alarm list exists',
+          subTitle: val,
+          buttons: ['Dismiss']
+        });
+        alert.present();
+      }
+      else{
+        var isValid = this.runValidation();
+        const alert = this.alertCtrl.create({
+          title: 'Validation',
+          subTitle: 'is valid' + isValid,
+          buttons: ['Dismiss']
+        });
+        alert.present();
 
+      }
+    })
+  }
+  
+  runValidation(){
+    if(!this.myDate) return "no time";
+    if(!this.repeat) return "no days";
+    if(!this.musicUrl) return "no music";
+    return true;
+  }
+
+  repeatChange(event){
+    this.repeat = event;
+  }
 
 }
