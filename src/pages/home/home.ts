@@ -1,7 +1,6 @@
 import { Component } from '@angular/core';
-import { UsersPage } from '../users/users';
 import { WeekDayRepeatComponent } from '../../components/week-day-repeat/week-day-repeat';
-import { AlertController } from 'ionic-angular';
+import { AlertController, NavParams } from 'ionic-angular';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { File } from '@ionic-native/file';
 import { Vibration } from '@ionic-native/vibration';
@@ -11,6 +10,8 @@ import { Media, MediaObject } from '@ionic-native/media';
 import { Observable } from 'rxjs/Rx';
 import { LocalNotifications } from '@ionic-native/local-notifications';
 import { Storage } from '@ionic/storage';
+import { AlarmListPage } from '../alarm-list/alarm-list';
+import { NavController } from 'ionic-angular/navigation/nav-controller';
 
 
 @Component({
@@ -19,16 +20,24 @@ import { Storage } from '@ionic/storage';
 })
 export class HomePage {
   
-  usersPage = UsersPage;
-  myDate = Date.now();
+  AlarmListPage = AlarmListPage;
   alarmName: string = "";
   vibrationON: boolean = false;
   musicUrl: string = "";
   subscription;
   repeat: boolean[] = [];
+  alarm = {
+    id: 1,
+    time: '',
+    vibrationON: false,
+    musicUrl: '',
+    repeat: [false, false, false, false, false, false, false],
+    active: true
+  };
 
   constructor(
     private alertCtrl: AlertController,
+    private navCtrl: NavController,
     private fileChooser: FileChooser,
     private file: File,
     private vibration: Vibration,
@@ -36,71 +45,36 @@ export class HomePage {
     private filePath: FilePath,
     private media: Media,
     private localNotifications: LocalNotifications,
-    private storage: Storage
+    private storage: Storage,
+    private navParams: NavParams
   ){
-
-  }
-
-  
-
-
-  editName(){
-    const nameAlert = this.alertCtrl.create({
-      title: "Alarm name",
-      inputs: [
-        {
-          name: 'alarmName',
-          placeholder: 'Alarm name'
-        }
-      ],
-      buttons: [
-        {
-          text: 'Cancel',
-          role: 'cancel',
-          handler: data => {
-            console.log('Cancel clicked');
-          }
-        },
-        {
-          text: 'Confirm',
-          handler: data => {
-            this.alarmName = data.alarmName;
-            console.log('this.alarmName: ', this.alarmName);
-          }
-        }
-      ]
-    });
-    nameAlert.present();
+    if(navParams.data != 'new') {
+      this.alarm = navParams.data;
+    }
   }
 
   chooseAlarmTone(){
     this.fileChooser.open().then((url) => {
       (<any>window).FilePath.resolveNativePath(url, (result) => {
-        this.musicUrl = result;
+        this.alarm.musicUrl = result;
       })
-      const myalert = this.alertCtrl.create({
-        title: this.musicUrl
-      });
-      myalert.present();
     })
   }
 
   changeVibration(){
-    if(this.vibrationON){
+    if(this.alarm.vibrationON){
       this.vibration.vibrate(1000);
-      console.log("vibrating");
     }
   }
 
   play(){
     //save to SharedPrefences
     //should use music control, background mode
-    const file: MediaObject = this.media.create(this.musicUrl);
+    const file: MediaObject = this.media.create(this.alarm.musicUrl);
     file.play();
     file.onSuccess.subscribe(() => console.log('Action is successful'));
     this.storage.set('name', {Max: 'wyh'});
     this.storage.get('name').then((val) => {
-      console.log('Your age is', val);
     });
   }
 
@@ -114,37 +88,52 @@ export class HomePage {
     this.subscription.unsubscribe ();
   }
   saveAlarm(){
-    this.storage.get('alarmList').then((val) => {
-      if(val){
-        const alert = this.alertCtrl.create({
-          title: 'Alarm list exists',
-          subTitle: val,
-          buttons: ['Dismiss']
-        });
-        alert.present();
-      }
-      else{
-        var isValid = this.runValidation();
-        const alert = this.alertCtrl.create({
-          title: 'Validation',
-          subTitle: 'is valid' + isValid,
-          buttons: ['Dismiss']
-        });
-        alert.present();
-
-      }
-    })
+    var isValid = this.runValidation();
+    if(isValid != true){
+      const alert = this.alertCtrl.create({
+        title: 'Alarm not valid',
+        subTitle: isValid,
+        buttons: ['Dismiss']
+      });
+      alert.present();
+    }
+    else{
+      this.storage.get('alarmList').then((val) => {
+        if(val.length > 0){
+          for(var i = 0; i < val.length; i++){
+            if(val[i].id == this.alarm.id) {
+              val[i] = this.alarm;
+              this.storage.set('alarmList', val);
+            }
+          }
+          this.alarm.id = val[val.length - 1].id + 1;
+          val.push(this.alarm);
+          this.storage.set('alarmList', val);
+        }
+        else{
+          var alarmList = [];
+          alarmList.push(this.alarm);
+          this.storage.set('alarmList', alarmList);
+        }
+      })
+      this.navCtrl.pop();
+    }
+    
   }
   
   runValidation(){
-    if(!this.myDate) return "no time";
-    if(!this.repeat) return "no days";
-    if(!this.musicUrl) return "no music";
+    if(!this.alarm.time) return "Please select time";
+    if(this.alarm.repeat.indexOf(true) == -1) return "Please select repeat days";
+    if(!this.alarm.musicUrl) return "Please select repeat music";
     return true;
   }
 
   repeatChange(event){
-    this.repeat = event;
+    this.alarm.repeat = event;
+  }
+
+  cancel(){
+    this.navCtrl.pop();
   }
 
 }

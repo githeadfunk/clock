@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>My Alarms</ion-title>
+    <ion-buttons end class="button-icon">
+        <button (click)="addAlarm()"><ion-icon md="md-add-circle" ></ion-icon></button>
+        <button (click)="clearAll()"><ion-icon md="md-close-circle"></ion-icon></button>
+        
+    </ion-buttons> 
+    
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content padding>
+  <ion-grid>
+    <ion-row *ngFor="let alarm of alarmList" class="alarm-item">
+        <ion-col col-11 (click)="toHomePage(alarm)" >
+                <strong style="font-size: 160%;">
+                  {{alarm.time}}
+                </strong> 
+                <span *ngFor="let day of repeatTranlate(alarm.repeat)" class="day">{{day}}</span>
+        </ion-col>
+        <ion-col col-1>
+          <ion-checkbox [(ngModel)]="alarm.active" style="vertical-align: middle"></ion-checkbox>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+
+    <!-- <div *ngFor="let alarm of alarmList" class="alarm-item">
+      <div (click)="toHomePage()" >
+        <strong style="font-size: 160%;">
+          {{alarm.time}}
+        </strong> 
+        <span *ngFor="let day of repeatTranlate(alarm.repeat)" class="day">{{day}}</span>
+      </div>
+      <div padding>
+        <ion-checkbox [(ngModel)]="alarm.active" style="vertical-align: middle"></ion-checkbox>
+      </div>
+    </div> -->
+</ion-content>

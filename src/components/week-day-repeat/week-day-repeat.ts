@@ -1,4 +1,4 @@
-import { Component, Output, EventEmitter } from '@angular/core';
+import { Component, Output, EventEmitter, Input } from '@angular/core';
 
 @Component({
   selector: 'week-day-repeat',
@@ -7,6 +7,7 @@ import { Component, Output, EventEmitter } from '@angular/core';
 export class WeekDayRepeatComponent {
 
   text: string;
+  @Input()
   repeat: boolean[] = [false,false,false,false,false,false,false];
   @Output()
   change: EventEmitter<boolean[]> = new EventEmitter<boolean[]>();

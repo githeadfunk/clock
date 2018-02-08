@@ -6,7 +6,7 @@ import { StatusBar } from '@ionic-native/status-bar';
 
 import { MyApp } from './app.component';
 import { HomePage } from '../pages/home/home';
-import { UsersPageModule } from '../pages/users/users.module';
+import { AlarmListPage } from '../pages/alarm-list/alarm-list';
 import { ComponentsModule } from '../components/components.module';
 import { FileChooser } from '@ionic-native/file-chooser';
 import { File } from '@ionic-native/file';
@@ -22,18 +22,19 @@ import { IonicStorageModule } from '@ionic/storage';
   declarations: [
     MyApp,
     HomePage,
+    AlarmListPage
   ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
-    UsersPageModule,
     ComponentsModule,
     IonicStorageModule.forRoot()
   ],
   bootstrap: [IonicApp],
   entryComponents: [
     MyApp,
-    HomePage
+    HomePage,
+    AlarmListPage
   ],
   providers: [
     StatusBar,

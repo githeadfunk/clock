@@ -1,0 +1,22 @@
+page-alarm-list {
+  .day{
+    padding: 0 5px;
+    font-size: 100%;
+  }
+  .alarm-item{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 200%;
+  }
+  .alarm-item div{
+    flex: auto;
+  }
+  ion-icon {
+    font-size: 30px; //Preferred size here
+    background-color: none;
+  }
+  .button-icon button{
+    background: none;
+  }
+}

@@ -9,19 +9,13 @@
 <ion-content padding>
   <ion-item>
     <ion-label>Time</ion-label>
-    <ion-datetime displayFormat="hh:mm A" [(ngModel)]="myDate">
+    <ion-datetime displayFormat="hh:mm A" [(ngModel)]="alarm.time">
     </ion-datetime>
   </ion-item>
   <ion-item>
     <ion-label style="height: 65px;">
       Repeat
-      <week-day-repeat (change)="repeatChange($event)"></week-day-repeat>
-    </ion-label>
-  </ion-item>
-  <ion-item (click)="editName()">
-    <ion-label>
-      Alarm name<br>
-      <span style="color: #488aff">{{alarmName}}</span> 
+      <week-day-repeat (change)="repeatChange($event)" [repeat]="alarm.repeat"></week-day-repeat>
     </ion-label>
   </ion-item>
   <ion-item (click)="chooseAlarmTone()">
@@ -29,14 +23,14 @@
   </ion-item>
   <ion-item>
     <ion-label>Vibration</ion-label>
-    <ion-toggle [(ngModel)]="vibrationON" (ionChange)="changeVibration()"></ion-toggle>
+    <ion-toggle [(ngModel)]="alarm.vibrationON" (ionChange)="changeVibration()"></ion-toggle>
   </ion-item>
   <ion-item>
     <ion-label (click)="play()">Play</ion-label>
   </ion-item>
   <div padding text-center>
     <button ion-button (click)="saveAlarm()">Save</button>
-    <button ion-button>Cancel</button>
+    <button ion-button (click)="cancel()">Cancel</button>
   </div>
   
 </ion-content>
